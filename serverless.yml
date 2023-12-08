@@ -1,0 +1,24 @@
+service: locomotive
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: ap-southeast-1
+functions:
+  api:
+    handler: handler.api
+    timeout: 15
+    memorySize: 1024
+    events:
+      - http:
+          path: /
+          method: get
+      - http:
+          path: /api/user-create
+          method: post
+plugins:
+  - serverless-dotenv-plugin
+custom:
+  dotenv:
+    path: .env.${self:provider.stage}
